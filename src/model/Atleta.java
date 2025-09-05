@@ -12,6 +12,7 @@ public class Atleta {
 	public Atleta(int id, int pontuacao) {
 		this.id = id;
 		this.pontuacao = pontuacao;
+		this.nome = "";
 	}
 
 	public Atleta(int id, int pontuacao, String nome) {
@@ -23,8 +24,8 @@ public class Atleta {
 	@Override
 	public String toString() {
 		StringBuilder text = new StringBuilder();
-		text.append("[").append(id).append(",").append(nome).append(",").append(pontuacao).append(",").append("]");
-		return super.toString();
+		text.append("[").append(id).append(",").append(nome).append(",").append(pontuacao).append("]\n");
+		return text.toString();
 	}
 
 	public void setId(int id) {

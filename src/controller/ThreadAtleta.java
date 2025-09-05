@@ -6,6 +6,7 @@ import model.Atleta;
 import model.listaSimples.ListaSimples;
 
 public class ThreadAtleta extends Thread {
+	static int corredores = 0;
 	Atleta atleta;
 	Semaphore semaforoGun;
 	Semaphore mutexPlacement;
@@ -14,7 +15,7 @@ public class ThreadAtleta extends Thread {
 
 	public ThreadAtleta(int ID, Semaphore semaforoGun, Semaphore mutexPlacement, Semaphore mutexConsole,
 			ListaSimples<Atleta> scoreboard) {
-		this.atleta = new Atleta(ID, 0);
+		this.atleta = new Atleta(ID, 0, "Paulo");
 		this.semaforoGun = semaforoGun;
 		this.mutexPlacement = mutexPlacement;
 		this.scoreboard = scoreboard;
@@ -40,6 +41,12 @@ public class ThreadAtleta extends Thread {
 			System.out.println(e.getMessage());
 		} finally {
 			mutexPlacement.release();
+		}
+		corredores++;
+		System.out.println(corredores);
+		if (corredores >= 25) {
+			sortScore();
+			System.out.println(scoreboard.toString());
 		}
 	}
 
@@ -74,5 +81,10 @@ public class ThreadAtleta extends Thread {
 		aux += 250 - (scoreboard.total() * 10);
 		atleta.setPontuacao(aux);
 		scoreboard.append(atleta);
+	}
+
+	private void sortScore() {
+		// TODO Auto-generated method stub
+
 	}
 }

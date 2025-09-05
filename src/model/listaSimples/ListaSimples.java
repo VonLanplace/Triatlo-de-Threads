@@ -157,9 +157,10 @@ public class ListaSimples<T> {
 		StringBuilder text = new StringBuilder("[");
 		No<T> atual = this.primeiro;
 		while (atual != null) {
-			text.append(atual.toString()).append(",");
+			text.append(atual.getConteudo().toString()).append(",");
 			atual = atual.getProximo();
 		}
+		text.deleteCharAt(text.length() - 1);
 		text.append("]");
 		return text.toString();
 	}
