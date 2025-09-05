@@ -84,7 +84,34 @@ public class ThreadAtleta extends Thread {
 	}
 
 	private void sortScore() {
-		// TODO Auto-generated method stub
+		sortScore(this.scoreboard, 0, this.scoreboard.total() - 1);
+	}
 
+	private void sortScore(ListaSimples<Atleta> scoreboard, int min, int max) {
+		int i = min, j = max;
+		Atleta pivo = scoreboard.get((max - min) / 2 + min).getConteudo();
+		while (i <= j) {
+			while (scoreboard.get(i).getConteudo().getPontuacao() > pivo.getPontuacao()) {
+				i++;
+			}
+			while (scoreboard.get(j).getConteudo().getPontuacao() < pivo.getPontuacao()) {
+				j--;
+			}
+			if (i <= j) {
+				Atleta aux = scoreboard.get(i).getConteudo();
+				scoreboard.get(i).setConteudo(scoreboard.get(j).getConteudo());
+				scoreboard.get(j).setConteudo(aux);
+
+				i++;
+				j--;
+			}
+		}
+
+		if (i < max) {
+			sortScore(scoreboard, i, max);
+		}
+		if (j > min) {
+			sortScore(scoreboard, min, j);
+		}
 	}
 }

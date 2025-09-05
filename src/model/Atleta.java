@@ -51,4 +51,8 @@ public class Atleta {
 	public int getPontuacao() {
 		return pontuacao;
 	}
+
+	public Atleta copy() {
+		return new Atleta(this.id, this.pontuacao, this.nome);
+	}
 }
