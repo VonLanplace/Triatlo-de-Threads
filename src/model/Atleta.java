@@ -30,7 +30,8 @@ public class Atleta {
 	@Override
 	public String toString() {
 		StringBuilder text = new StringBuilder();
-		text.append("[").append(id).append(",").append(nome).append(",").append(pontuacao).append("]");
+		text.append("[").append(String.format("%02d", id)).append(",").append(String.format("%03d", pontuacao))
+				.append(",").append(nome).append("]");
 		return text.toString();
 	}
 
