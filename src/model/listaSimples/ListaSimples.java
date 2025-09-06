@@ -154,14 +154,14 @@ public class ListaSimples<T> {
 		if (this.primeiro == null) {
 			return "[]";
 		}
-		StringBuilder text = new StringBuilder("[");
+		StringBuilder text = new StringBuilder("[\n");
 		No<T> atual = this.primeiro;
 		while (atual != null) {
-			text.append(atual.getConteudo().toString()).append(",");
+			text.append("\t").append(atual.getConteudo().toString()).append(",\n");
 			atual = atual.getProximo();
 		}
-		text.deleteCharAt(text.length() - 1);
-		text.append("]");
+		text.deleteCharAt(text.length() - 1).deleteCharAt(text.length() - 1);
+		text.append("\n]");
 		return text.toString();
 	}
 }

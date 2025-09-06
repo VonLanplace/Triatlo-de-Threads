@@ -11,15 +11,12 @@ public class ThreadAtleta extends Thread {
 	Semaphore semaforoGun;
 	Semaphore mutexPlacement;
 	Semaphore mutexConsole;
-	ListaSimples<Atleta> scoreboard;
+	static ListaSimples<Atleta> scoreboard = new ListaSimples<Atleta>();
 
-	public ThreadAtleta(int ID, Semaphore semaforoGun, Semaphore mutexPlacement, Semaphore mutexConsole,
-			ListaSimples<Atleta> scoreboard) {
-		this.atleta = new Atleta(ID, 0, "Paulo");
+	public ThreadAtleta(int ID, String nome, Semaphore semaforoGun, Semaphore mutexPlacement, Semaphore mutexConsole) {
+		this.atleta = new Atleta(ID, 0, nome);
 		this.semaforoGun = semaforoGun;
 		this.mutexPlacement = mutexPlacement;
-		this.scoreboard = scoreboard;
-
 	}
 
 	@Override
@@ -43,7 +40,7 @@ public class ThreadAtleta extends Thread {
 			mutexPlacement.release();
 		}
 		corredores++;
-		System.out.println(corredores);
+		// System.out.println(corredores);
 		if (corredores >= 25) {
 			sortScore();
 			System.out.println(scoreboard.toString());
@@ -84,34 +81,47 @@ public class ThreadAtleta extends Thread {
 	}
 
 	private void sortScore() {
-		sortScore(this.scoreboard, 0, this.scoreboard.total() - 1);
+		sortScore(0, scoreboard.total() - 1);
 	}
 
-	private void sortScore(ListaSimples<Atleta> scoreboard, int min, int max) {
-		int i = min, j = max;
-		Atleta pivo = scoreboard.get((max - min) / 2 + min).getConteudo();
-		while (i <= j) {
-			while (scoreboard.get(i).getConteudo().getPontuacao() > pivo.getPontuacao()) {
-				i++;
-			}
-			while (scoreboard.get(j).getConteudo().getPontuacao() < pivo.getPontuacao()) {
-				j--;
-			}
-			if (i <= j) {
-				Atleta aux = scoreboard.get(i).getConteudo();
-				scoreboard.get(i).setConteudo(scoreboard.get(j).getConteudo());
-				scoreboard.get(j).setConteudo(aux);
+	private void sortScore(int min, int max) {
+		if (min >= max)
+			return;
+		int mid = (max - min) / 2 + min;
 
+		sortScore(min, mid);
+		sortScore(mid + 1, max);
+
+		sortMerge(min, mid, max);
+	}
+
+	private void sortMerge(int min, int mid, int max) {
+		ListaSimples<Atleta> aux = new ListaSimples<Atleta>();
+
+		int i = min, j = mid + 1;
+
+		while (i <= mid && j <= max) {
+			if (scoreboard.get(i).getConteudo().getPontuacao() >= scoreboard.get(j).getConteudo().getPontuacao()) {
+				aux.append(scoreboard.get(i).getConteudo());
 				i++;
-				j--;
+			} else {
+				aux.append(scoreboard.get(j).getConteudo());
+				j++;
 			}
 		}
-
-		if (i < max) {
-			sortScore(scoreboard, i, max);
+		while (i <= mid) {
+			aux.append(scoreboard.get(i).getConteudo());
+			i++;
 		}
-		if (j > min) {
-			sortScore(scoreboard, min, j);
+		while (j <= max) {
+			aux.append(scoreboard.get(j).getConteudo());
+			j++;
+		}
+
+		i = min;
+		while (i <= max) {
+			scoreboard.get(i).setConteudo(aux.get(i - min).getConteudo());
+			i++;
 		}
 	}
 }

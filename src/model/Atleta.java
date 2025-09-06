@@ -9,6 +9,12 @@ public class Atleta {
 		super();
 	}
 
+	public Atleta(int id) {
+		this.id = id;
+		this.pontuacao = 0;
+		this.nome = "";
+	}
+
 	public Atleta(int id, int pontuacao) {
 		this.id = id;
 		this.pontuacao = pontuacao;
@@ -24,7 +30,7 @@ public class Atleta {
 	@Override
 	public String toString() {
 		StringBuilder text = new StringBuilder();
-		text.append("[").append(id).append(",").append(nome).append(",").append(pontuacao).append("]\n");
+		text.append("[").append(id).append(",").append(nome).append(",").append(pontuacao).append("]");
 		return text.toString();
 	}
 
